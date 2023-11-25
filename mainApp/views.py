@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .forms import CreateVendorForm
+from .forms import CreateVendorForm,AllThree
 from rest_framework import generics
 from rest_framework.response import Response
 from .models import VendorModel,PurchaseOrderModel, HistoricalPerformanceModel
@@ -9,6 +9,11 @@ from rest_framework.views import APIView
 from django.db import connection
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
+
+def three(request):
+    return render(request,"all_three.html")
+        
+    
 
 class RetrieveVendorView(APIView):
     def get(self, request, pachi):
@@ -23,10 +28,10 @@ class RetrieveVendorView(APIView):
             "name": request.data.get('name'),
             "contact_details": request.data.get('contact_details'),
             "address": request.data.get('address'),
-            "on_time_delivery_rate": request.data.get('on_time_delivery_rate'),
-            "quality_rating_avg": request.data.get('quality_rating_avg'),
-            "average_response_time": request.data.get('average_response_time'),
-            "fulfillment_rate":request.data.get('fulfillment_rate')
+            # "on_time_delivery_rate": request.data.get('on_time_delivery_rate'),
+            # "quality_rating_avg": request.data.get('quality_rating_avg'),
+            # "average_response_time": request.data.get('average_response_time'),
+            # "fulfillment_rate":request.data.get('fulfillment_rate')
         }
         serializer = VendorSerializer(instance=saved_article, data=vendors, partial=True)
         if serializer.is_valid(raise_exception=True):
@@ -53,10 +58,10 @@ class GetVendorView(APIView):
             "name": request.data.get('name'),
             "contact_details": request.data.get('contact_details'),
             "address": request.data.get('address'),
-            "on_time_delivery_rate": request.data.get('on_time_delivery_rate'),
-            "quality_rating_avg": request.data.get('quality_rating_avg'),
-            "average_response_time": request.data.get('average_response_time'),
-            "fulfillment_rate":request.data.get('fulfillment_rate')
+            # "on_time_delivery_rate": request.data.get('on_time_delivery_rate'),
+            # "quality_rating_avg": request.data.get('quality_rating_avg'),
+            # "average_response_time": request.data.get('average_response_time'),
+            # "fulfillment_rate":request.data.get('fulfillment_rate')
         }
         serializer = VendorSerializer(data=vendors)
         if serializer.is_valid(raise_exception=True):
@@ -125,6 +130,12 @@ class RetrievePurchaseView(APIView):
         return Response({"message": "Article with id `{}` has been deleted.".format(pachi)},status=204)
 
 
+class GetPerformanceView(APIView):
+    def get(self, request,pachi):
+        pos = VendorModel.objects.filter(vendor_code=pachi)
+        serializer = VendorPerformanceSerializer(pos, many=True)
+        return Response({"performance_metrics": serializer.data})
+
 # class VendorCreateListView(generics.ListCreateAPIView):
 #     queryset = VendorModel.objects.all()
 #     serializer_class = VendorSerializer
@@ -156,6 +167,11 @@ class VendorPerformanceListView(generics.ListAPIView):
 
 def home(request):
     return render(request, 'home.html')
+
+# def avg_quality_rating(request):
+#     average_quantities = Vend.objects.values('group__group_id', 'group__group_name').annotate(
+#     average_quantity=Avg('quantity')
+# )
 
 # def UpdateThirdTable(request):
     

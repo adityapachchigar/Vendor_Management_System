@@ -12,14 +12,14 @@ class VendorModel(models.Model):
     average_response_time = models.FloatField()
     fulfillment_rate = models.FloatField(default=0.0)
     
-    def get_performance_metrics(self):
-        performance_metrics = {
-            'on_time_delivery_rate': self.on_time_delivery_rate,
-            'quality_rating_avg': self.quality_rating_avg,
-            'average_response_time': self.average_response_time,
-            'fulfillment_rate': self.fulfillment_rate,
-        }
-        return performance_metrics
+    # def get_performance_metrics(self):
+    #     performance_metrics = {
+    #         'on_time_delivery_rate': self.on_time_delivery_rate,
+    #         'quality_rating_avg': self.quality_rating_avg,
+    #         'average_response_time': self.average_response_time,
+    #         'fulfillment_rate': self.fulfillment_rate,
+    #     }
+    #     return performance_metrics
     
 class PurchaseOrderModel(models.Model):
     po_number = models.CharField(primary_key=True,max_length=20)

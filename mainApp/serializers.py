@@ -4,7 +4,7 @@ from .models import VendorModel,PurchaseOrderModel,HistoricalPerformanceModel
 class VendorSerializer(serializers.ModelSerializer):
     class Meta:
         model = VendorModel
-        fields = "__all__"
+        fields = ['vendor_code', 'name', 'contact_details','address']
     
     def create(self, validated_data):
         return VendorModel.objects.create(**validated_data)
@@ -14,10 +14,10 @@ class VendorSerializer(serializers.ModelSerializer):
         instance.name = validated_data.get('name', instance.name)
         instance.contact_details = validated_data.get('contact_details', instance.contact_details)
         instance.address = validated_data.get('address', instance.address)
-        instance.on_time_delivery_rate = validated_data.get('on_time_delivery_rate', instance.on_time_delivery_rate)
-        instance.quality_rating_avg = validated_data.get('quality_rating_avg', instance.quality_rating_avg)
-        instance.average_response_time = validated_data.get('average_response_time', instance.average_response_time)
-        instance.fulfillment_rate = validated_data.get('fulfillment_rate', instance.fulfillment_rate)
+        # instance.on_time_delivery_rate = validated_data.get('on_time_delivery_rate', instance.on_time_delivery_rate)
+        # instance.quality_rating_avg = validated_data.get('quality_rating_avg', instance.quality_rating_avg)
+        # instance.average_response_time = validated_data.get('average_response_time', instance.average_response_time)
+        # instance.fulfillment_rate = validated_data.get('fulfillment_rate', instance.fulfillment_rate)
 
         instance.save()
         return instance
